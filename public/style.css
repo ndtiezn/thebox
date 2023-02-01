@@ -279,7 +279,7 @@ option {
 }
 
 #url-text-input {
-  width: 100%;
+  width:550px;
   flex: 1;
   padding: 20px;
   margin-right: 10px;
