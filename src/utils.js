@@ -21,8 +21,8 @@ String.prototype.replaceAll = function replaceAll(search, replace) {
 
 // Simple Flask app with yt-dlp package (not available in npm) for song downloading.
 // const ytdlp_endpoint = "https://yt-dlp-back.herokuapp.com/download";
-const box_endpoint = "https://yt-dlp-back.onrender.com/download"
-// const ytdlp_endpoint = "http://localhost:5000/download"
+// const ytdlp_endpoint = "https://yt-dlp-back.onrender.com/download"
+const ytdlp_endpoint = "http://localhost:5000/download"
 
 /**
  * Downloads song info from youtube api and parses yt title to author and song titile.
@@ -197,8 +197,8 @@ async function downloadSong(info, res) {
         sessionDir: info.fullSessionDirPath,
     };
 
-    const boxResponse = await axios({
-        url: box_endpoint,
+    const ytDlpResponse = await axios({
+        url: ytdlp_endpoint,
         method: "POST",
         responseType: "stream",
         data: request,
@@ -206,7 +206,7 @@ async function downloadSong(info, res) {
 
     console.log("Raw song.webm download started!");
     let stream = fs.createWriteStream(path.join(info.fullSessionDirPath, "ytsong.webm"));
-    boxResponse.data.pipe(stream);
+    ytDlpResponse.data.pipe(stream);
 
     await new Promise(function (resolve, reject) {
         stream.on("close", () => resolve(console.log("Raw song.webm download finished!")));
